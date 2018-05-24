@@ -1,6 +1,5 @@
 package main;
 
-import code.Bahnhof;
 
 public class Strecke {
 

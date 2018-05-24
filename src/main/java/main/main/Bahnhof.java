@@ -1,5 +1,6 @@
 package main;
 
+import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 
@@ -9,21 +10,27 @@ import org.hibernate.annotations.Entity;
 public class Bahnhof {
 	
 	@Id
-	private Long ID;
+	@Column
+	private long id;
 	
 	@NotNull
+	@Column
 	private String name;
 
-	@Id
+	@NotNull
+	@Column
 	private int absPreisEntfernung;
 
-	@Id
+	@NotNull
+	@Column
 	private int absKmEntfernung;
 
-	@Id
+	@NotNull
+	@Column
 	private int absZeitEntfernung;
 
-	@Id
+	@NotNull
+	@Column
 	private boolean kopfBahnhof;
 
 }

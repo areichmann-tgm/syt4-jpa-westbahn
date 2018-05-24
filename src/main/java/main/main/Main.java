@@ -28,8 +28,9 @@ public class Main {
 		log.setLevel(Level.ALL);
 		try {
 			log.info("Starting \"Mapping Perstistent Classes and Associations\" (task1)");
+			System.out.println("HEY DU!");
 			sessionFactory = Persistence.createEntityManagerFactory("westbahn");
-			
+
 			fillDB(entitymanager);
 			task01();
 			log.info("Starting \"Working with JPA-QL and the Hibernate Criteria API\" (task2)");

@@ -1,8 +1,13 @@
 package main;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import java.util.List;
+
 public class Benutzer {
 
-	private Long ID;
+	private Long id;
 
 	private String vorName;
 
@@ -16,7 +21,13 @@ public class Benutzer {
 
 	private Long verbuchtePraemienMeilen;
 
-	private Ticket tickets;
+	@OneToMany
+	@JoinTable(
+			name = "benutzer_tickets",
+			joinColumns = {@JoinColumn(referencedColumnName = "id")},
+			inverseJoinColumns = {@JoinColumn(referencedColumnName = "id")}
+	)
+	private List<Ticket> tickets;
 
 	private Reservierung[] reservierungen;
 

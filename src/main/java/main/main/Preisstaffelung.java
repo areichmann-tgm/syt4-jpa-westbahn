@@ -4,9 +4,9 @@ public class Preisstaffelung {
 
 	private static Long serialVersionUID;
 
-	private float grossGepaeck = float(1.02);
+	private float grossGepaeck = (1.02f);
 
-	private float fahrrad = 1,05;
+	private float fahrrad = 1.05f;
 
 	private int zeitkarteWoche = 8;
 
