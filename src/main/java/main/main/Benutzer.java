@@ -1,5 +1,6 @@
 package main;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class Benutzer {
@@ -8,21 +9,27 @@ public class Benutzer {
 	@Column
 	private long id;
 
+	@NotNull
 	@Column
 	private String vorName;
 
+	@NotNull
 	@Column
 	private String nachName;
 
+	@NotNull
 	@Column
 	private String eMail;
 
+	@NotNull
 	@Column
 	private String passwort;
 
+	@NotNull
 	@Column
 	private String smsNummer;
 
+	@NotNull
 	@Column
 	private long verbuchtePraemienMeilen;
 
