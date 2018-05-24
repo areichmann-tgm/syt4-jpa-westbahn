@@ -1,6 +1,6 @@
-package main;
+package main.main;
 
-public class Kreditkarte implements Zahlung {
+public class Kreditkarte implements main.Zahlung {
 
 
 	/**

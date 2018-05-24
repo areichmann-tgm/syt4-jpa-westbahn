@@ -1,4 +1,4 @@
-package main;
+package main.main;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

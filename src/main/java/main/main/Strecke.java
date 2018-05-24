@@ -1,4 +1,4 @@
-package main;
+package main.main;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -12,15 +12,18 @@ public class Strecke {
 	private long id;
 
 	@NotNull
-	@Column
+	@ManyToOne
+	@JoinColumn(name="start")
 	private Bahnhof start;
 
 	@NotNull
-	@Column
+	@ManyToOne
+	@JoinColumn(name="bahnhof")
 	private Bahnhof bahnhof;
 
 	@NotNull
-	@Column
+	@ManyToOne
+	@JoinColumn(name="ende")
 	private Bahnhof ende;
 
 }

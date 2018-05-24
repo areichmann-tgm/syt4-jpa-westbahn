@@ -1,5 +1,4 @@
-package main;
-
+package main.main;
 public enum ZeitkartenTyp {;
 
 	public int WOCHENKARTE;

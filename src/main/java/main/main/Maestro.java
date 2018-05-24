@@ -1,6 +1,6 @@
-package main;
+package main.main;
 
-public class Maestro implements Zahlung {
+public class Maestro implements main.Zahlung {
 
 
 	/**

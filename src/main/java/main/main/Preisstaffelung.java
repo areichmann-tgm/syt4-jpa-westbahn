@@ -1,4 +1,4 @@
-package main;
+package main.main;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,7 +42,7 @@ public class Preisstaffelung {
 		return null;
 	}
 
-	private Preisstaffelung() {
+	public Preisstaffelung() {
 
 	}
 

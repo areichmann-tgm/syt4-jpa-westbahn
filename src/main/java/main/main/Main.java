@@ -1,4 +1,4 @@
-package main;
+package main.main;
 
 //import model.*;
 import org.apache.log4j.Level;

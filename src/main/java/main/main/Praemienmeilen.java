@@ -1,4 +1,4 @@
-package main;
+package main.main;
 
 public class Praemienmeilen implements Zahlung {
 
