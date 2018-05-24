@@ -2,6 +2,7 @@ package main;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
+import org.hibernate.validator.constraints.Email;
 
 public class Benutzer {
 
@@ -18,7 +19,7 @@ public class Benutzer {
 	private String nachName;
 
 	@NotNull
-	@Column
+	@Email(message = "E-Mail Adresse muss gültig sein")
 	private String eMail;
 
 	@NotNull
