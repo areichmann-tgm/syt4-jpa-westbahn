@@ -1,25 +1,30 @@
 package main;
-
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 public class Benutzer {
 
-	private Long id;
+	@Id
+	@Column
+	private long id;
 
+	@Column
 	private String vorName;
 
+	@Column
 	private String nachName;
 
+	@Column
 	private String eMail;
 
+	@Column
 	private String passwort;
 
+	@Column
 	private String smsNummer;
 
-	private Long verbuchtePraemienMeilen;
+	@Column
+	private long verbuchtePraemienMeilen;
 
 	@OneToMany
 	@JoinTable(
@@ -29,6 +34,12 @@ public class Benutzer {
 	)
 	private List<Ticket> tickets;
 
-	private Reservierung[] reservierungen;
+	@OneToMany
+	@JoinTable(
+			name = "benutzer_reservierungen",
+			joinColumns = {@JoinColumn(referencedColumnName = "id")},
+			inverseJoinColumns = {@JoinColumn(referencedColumnName = "id")}
+	)
+	private List<Reservierung> reservierungen;
 
 }

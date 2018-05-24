@@ -1,10 +1,12 @@
 package main;
 
+import javax.persistence.*;
 import java.util.Date;
 
 public class Reservierung {
 
-	private Long ID;
+	@Id
+	private long id;
 
 	private Date datum;
 
