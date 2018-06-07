@@ -1,5 +1,7 @@
-package main.main;
-public enum ZeitkartenTyp {;
+package model;
+public enum ZeitkartenTyp {
+
+	;
 
 	public int WOCHENKARTE;
 

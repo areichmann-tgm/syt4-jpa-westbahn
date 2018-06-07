@@ -1,6 +1,5 @@
-package main.main;
-
-public class Kreditkarte implements main.Zahlung {
+package model;
+public class Praemienmeilen implements Zahlung {
 
 
 	/**

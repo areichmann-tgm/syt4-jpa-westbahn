@@ -1,5 +1,4 @@
-package main.main;
-
+package model;
 public enum StatusInfo {
 
 	;

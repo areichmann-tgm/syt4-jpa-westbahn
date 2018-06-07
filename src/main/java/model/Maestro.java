@@ -1,6 +1,5 @@
-package main.main;
-
-public class Praemienmeilen implements Zahlung {
+package model;
+public class Maestro implements Zahlung {
 
 
 	/**

@@ -1,6 +1,6 @@
-package main.main;
+package model;
 
-public class Maestro implements main.Zahlung {
+public class Kreditkarte implements Zahlung {
 
 
 	/**
