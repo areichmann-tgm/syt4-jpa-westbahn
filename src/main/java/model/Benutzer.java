@@ -2,6 +2,8 @@ package model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Benutzer {
@@ -28,11 +30,13 @@ public class Benutzer {
 
 	private Long verbuchtePraemienMeilen;
 
+	@OneToOne(cascade = CascadeType.ALL)
 	private Ticket tickets;
 
-	private Reservierung[] reservierungen;
 
-	public Benutzer(String vorName, String nachName, String eMail, String passwort, String smsNummer, Long verbuchtePraemienMeilen, Ticket tickets) {
+	private List<Reservierung> reservierungen;
+
+	public Benutzer(String vorName, String nachName, String eMail, String passwort, String smsNummer, Long verbuchtePraemienMeilen, Ticket tickets, List<Reservierung> reservierungen) {
 		super();
 		this.vorName = vorName;
 		this.nachName = nachName;
@@ -41,6 +45,7 @@ public class Benutzer {
 		this.smsNummer = smsNummer;
 		this.verbuchtePraemienMeilen = verbuchtePraemienMeilen;
 		this.tickets = tickets;
+		this.reservierungen = reservierungen;
 	}
 
 }

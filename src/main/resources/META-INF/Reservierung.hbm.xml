@@ -10,7 +10,7 @@
         <property name="preis" type="int" />
         <property name="status">
             <type name="org.hibernate.type.EnumType">
-                <param name="enumClass">westbahn.StatusInfo</param>
+                <param name="enumClass">model.StatusInfo</param>
                 <param name="useNamed">false</param>
             </type>
         </property>
