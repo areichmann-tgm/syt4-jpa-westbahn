@@ -1,6 +1,5 @@
 package model;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 @Entity
 public class Zug {
@@ -16,8 +15,10 @@ public class Zug {
 
 	private int rollStuhlPlaetze = 10;
 
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Bahnhof start;
 
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Bahnhof ende;
 
 }

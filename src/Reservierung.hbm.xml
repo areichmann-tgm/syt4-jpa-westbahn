@@ -1,0 +1,22 @@
+<?xml version = "1.0" encoding = "utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="model.Reservierung" table="reservierung">
+        <id name="ID"><generator class="identity"/></id>
+
+        <property name="datum" type="timestamp" />
+        <property name="praemienMeilenBonus" type="int" />
+        <property name="preis" type="int" />
+        <property name="status">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">westbahn.StatusInfo</param>
+                <param name="useNamed">false</param>
+            </type>
+        </property>
+        <many-to-one name="zug" class="model.Zug" cascade="all" />
+        <many-to-one name="strecke" class="model.Strecke" cascade="all" />
+        <many-to-one name="benutzer" class="model.Benutzer" cascade="all" />
+
+    </class>
+</hibernate-mapping>
