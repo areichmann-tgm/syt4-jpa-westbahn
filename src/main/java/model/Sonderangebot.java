@@ -1,11 +1,12 @@
 package model;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.Date;
 
 @Entity
 public class Sonderangebot {
 
-
+	@Id
 	private Long ID;
 
 	private int kontingent = 999;

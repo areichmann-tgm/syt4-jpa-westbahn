@@ -7,6 +7,7 @@ import javax.persistence.Id;
 
 @Entity
 public class Strecke {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long ID;

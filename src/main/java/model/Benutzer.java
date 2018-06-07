@@ -5,6 +5,9 @@ import javax.validation.constraints.Email;
 
 @Entity
 public class Benutzer {
+	public Benutzer(){
+
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,6 +23,7 @@ public class Benutzer {
 
 	private String passwort;
 
+	@Column(unique = true)
 	private String smsNummer;
 
 	private Long verbuchtePraemienMeilen;

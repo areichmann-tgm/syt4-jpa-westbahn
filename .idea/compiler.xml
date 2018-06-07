@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="syt4-jpa-westbahn" target="7" />
+      <module name="syt4-jpa-westbahn" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>
