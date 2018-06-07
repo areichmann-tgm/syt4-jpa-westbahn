@@ -1,12 +1,11 @@
 package model;
 public enum StatusInfo {
 
-	;
 
-	public int DELAYED;
+	DELAYED,
 
-	public int CANCELED;
+	CANCELED,
 
-	public int ONTIME;
+	ONTIME;
 
 }
