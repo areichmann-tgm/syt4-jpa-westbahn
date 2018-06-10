@@ -2,7 +2,6 @@ package model;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -38,14 +37,77 @@ public class Benutzer {
 
 	public Benutzer(String vorName, String nachName, String eMail, String passwort, String smsNummer, Long verbuchtePraemienMeilen, Ticket tickets, List<Reservierung> reservierungen) {
 		super();
-		this.vorName = vorName;
-		this.nachName = nachName;
-		this.eMail = eMail;
-		this.passwort = passwort;
-		this.smsNummer = smsNummer;
+		this.setVorName(vorName);
+		this.setNachName(nachName);
+		this.seteMail(eMail);
+		this.setPasswort(passwort);
+		this.setSmsNummer(smsNummer);
 		this.verbuchtePraemienMeilen = verbuchtePraemienMeilen;
-		this.tickets = tickets;
-		this.reservierungen = reservierungen;
+		this.setTickets(tickets);
+		this.setReservierungen(reservierungen);
 	}
 
+	public Long getID() {
+		return ID;
+	}
+
+	public void setID(Long ID) {
+		this.ID = ID;
+	}
+
+	public String getVorName() {
+		return vorName;
+	}
+
+	public void setVorName(String vorName) {
+		this.vorName = vorName;
+	}
+
+	public String getNachName() {
+		return nachName;
+	}
+
+	public void setNachName(String nachName) {
+		this.nachName = nachName;
+	}
+
+	public String geteMail() {
+		return eMail;
+	}
+
+	public void seteMail(String eMail) {
+		this.eMail = eMail;
+	}
+
+	public String getPasswort() {
+		return passwort;
+	}
+
+	public void setPasswort(String passwort) {
+		this.passwort = passwort;
+	}
+
+	public String getSmsNummer() {
+		return smsNummer;
+	}
+
+	public void setSmsNummer(String smsNummer) {
+		this.smsNummer = smsNummer;
+	}
+
+	public Ticket getTickets() {
+		return tickets;
+	}
+
+	public void setTickets(Ticket tickets) {
+		this.tickets = tickets;
+	}
+
+	public List<Reservierung> getReservierungen() {
+		return reservierungen;
+	}
+
+	public void setReservierungen(List<Reservierung> reservierungen) {
+		this.reservierungen = reservierungen;
+	}
 }

@@ -5,6 +5,10 @@ import javax.persistence.*;
 @Entity
 public abstract class Ticket {
 
+	public Ticket(){
+
+	}
+
 	@Id
 	@GeneratedValue
 	protected Long ID;
@@ -15,4 +19,8 @@ public abstract class Ticket {
 	@Transient
 	protected Zahlung zahlung;
 
+	public Ticket(Strecke strecke, Zahlung zahlung){
+		this.strecke = strecke;
+		this.zahlung = zahlung;
+	}
 }

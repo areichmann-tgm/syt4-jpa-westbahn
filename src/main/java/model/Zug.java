@@ -5,6 +5,7 @@ import java.util.Date;
 public class Zug {
 
 	@Id
+	@GeneratedValue
 	private Long ID;
 
 	private Date startZeit;
