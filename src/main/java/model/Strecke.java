@@ -18,6 +18,15 @@ public class Strecke {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Bahnhof ende;
 
+	public Strecke(Bahnhof start, Bahnhof bahnhof, Bahnhof ende) {
+		super();
+		this.start = start;
+		this.bahnhof = bahnhof;
+		this.ende = ende;
+	}
+	public Strecke(){
+
+	}
 	public Long getID() {
 		return ID;
 	}
