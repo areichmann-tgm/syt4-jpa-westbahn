@@ -17,7 +17,7 @@ public class Reservierung {
 
 	private StatusInfo status;
 
-	
+
 	private Zug zug;
 
 	private Strecke strecke;

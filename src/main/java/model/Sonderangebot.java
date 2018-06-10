@@ -1,5 +1,6 @@
 package model;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Date;
 
@@ -7,6 +8,7 @@ import java.util.Date;
 public class Sonderangebot {
 
 	@Id
+	@GeneratedValue
 	private Long ID;
 
 	private int kontingent = 999;

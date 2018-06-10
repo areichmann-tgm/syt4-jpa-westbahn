@@ -1,9 +1,6 @@
 package model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Strecke {
@@ -12,10 +9,13 @@ public class Strecke {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long ID;
 
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Bahnhof start;
 
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Bahnhof bahnhof;
 
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Bahnhof ende;
 
 }

@@ -33,7 +33,7 @@ public class Benutzer {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Ticket tickets;
 
-
+	@OneToMany(cascade = CascadeType.ALL)
 	private List<Reservierung> reservierungen;
 
 	public Benutzer(String vorName, String nachName, String eMail, String passwort, String smsNummer, Long verbuchtePraemienMeilen, Ticket tickets, List<Reservierung> reservierungen) {
