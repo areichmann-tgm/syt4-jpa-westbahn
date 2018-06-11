@@ -5,6 +5,7 @@ import javax.validation.constraints.Email;
 import java.util.List;
 
 @Entity
+
 public class Benutzer {
 	public Benutzer(){
 

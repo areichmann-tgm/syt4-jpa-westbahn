@@ -76,8 +76,8 @@ public class Main {
             e.printStackTrace();
         } finally {
             if (entitymanager.getTransaction().isActive())
-                //entitymanager.getTransaction().rollback();
-            //entitymanager.close();
+                entitymanager.getTransaction().rollback();
+            entitymanager.close();
             sessionFactory.close();
         }
     }
@@ -89,14 +89,14 @@ public class Main {
 
         //Make Bahnhof
         em.getTransaction().begin();
-        List<Bahnhof> list = new ArrayList<Bahnhof>();
-        list.add(new Bahnhof("WienHbf", 0, 0, 0, true));
-        list.add(new Bahnhof("SalzburgHbf", 20, 60, 120, true));
-        list.add(new Bahnhof("Amstetten", 40, 124, 169, false));
-        list.add(new Bahnhof("Linz-Ost", 140, 320, 250, false));
-        list.add(new Bahnhof("Huetteldorf", 3, 5, 19, false));
-        list.add(new Bahnhof("Wels-Zentrum", 102, 400, 250, true));
-        for (Bahnhof b : list)
+        List<Bahnhof> bahnhoefe = new ArrayList<Bahnhof>();
+        bahnhoefe.add(new Bahnhof("WienHbf", 0, 0, 0, true));
+        bahnhoefe.add(new Bahnhof("SalzburgHbf", 20, 60, 120, true));
+        bahnhoefe.add(new Bahnhof("Amstetten", 40, 124, 169, false));
+        bahnhoefe.add(new Bahnhof("Linz-Ost", 140, 320, 250, false));
+        bahnhoefe.add(new Bahnhof("Huetteldorf", 3, 5, 19, false));
+        bahnhoefe.add(new Bahnhof("Wels-Zentrum", 102, 400, 250, true));
+        for (Bahnhof b : bahnhoefe)
             em.persist(b);
         em.flush();
         em.getTransaction().commit();
@@ -105,11 +105,11 @@ public class Main {
         //Make Strecken
         em.getTransaction().begin();
         List<Strecke> strecken = new ArrayList<Strecke>();
-        strecken.add(new Strecke(list.get(0),list.get(1)));
-        strecken.add(new Strecke(list.get(1),list.get(2)));
-        strecken.add(new Strecke(list.get(2),list.get(3)));
-        strecken.add(new Strecke(list.get(3),list.get(4)));
-        strecken.add(new Strecke(list.get(4),list.get(5)));
+        strecken.add(new Strecke(bahnhoefe.get(0),bahnhoefe.get(1)));
+        strecken.add(new Strecke(bahnhoefe.get(1),bahnhoefe.get(2)));
+        strecken.add(new Strecke(bahnhoefe.get(2),bahnhoefe.get(3)));
+        strecken.add(new Strecke(bahnhoefe.get(3),bahnhoefe.get(4)));
+        strecken.add(new Strecke(bahnhoefe.get(4),bahnhoefe.get(5)));
         for (Strecke s : strecken)
             em.persist(s);
         em.flush();
@@ -122,12 +122,12 @@ public class Main {
         Zahlung praemien = new Praemienmeilen();
 
         List<Ticket> tickets = new ArrayList<Ticket>();
-        tickets.add(new Einzelticket(strecken.get(0), maestro, ZeitkartenTyp.(WOCHENKARTE)));
-        tickets.add(new Einzelticket(strecken.get(1), praemien, ZeitkartenTyp.MONATSKARTE));
-        tickets.add(new Einzelticket(strecken.get(2), kreditkarte, ZeitkartenTyp.JAHRESKARTE));
-        tickets.add(new Einzelticket(strecken.get(3), maestro, ZeitkartenTyp.WOCHENKARTE));
-        tickets.add(new Einzelticket(strecken.get(4), maestro, ZeitkartenTyp.MONATSKARTE));
-ZeitkartenTyp.valueOf(WOCHENKARTE);
+        tickets.add(new Einzelticket(strecken.get(0), maestro, TicketOption.FAHRRAD));
+        tickets.add(new Einzelticket(strecken.get(1), praemien, TicketOption.FAHRRAD));
+        tickets.add(new Einzelticket(strecken.get(2), kreditkarte, TicketOption.FAHRRAD));
+        tickets.add(new Einzelticket(strecken.get(3), maestro,TicketOption.FAHRRAD));
+        tickets.add(new Einzelticket(strecken.get(4), maestro, TicketOption.FAHRRAD));
+
         for (Ticket t : tickets)
             em.persist(t);
         em.flush();
@@ -147,7 +147,7 @@ ZeitkartenTyp.valueOf(WOCHENKARTE);
         //Make Züge
         em.getTransaction().begin();
         List<Zug> zuege = new ArrayList<Zug>();
-       zuege.add(new Zug(new Date(),32, 100, 68, list.get(0), list.get(1)));
+       zuege.add(new Zug(new Date(),32, 100, 68, bahnhoefe.get(0), bahnhoefe.get(1)));
         for (Zug z : zuege)
             em.persist(z);
         em.flush();
@@ -156,7 +156,7 @@ ZeitkartenTyp.valueOf(WOCHENKARTE);
         //Make Reservierungen
         em.getTransaction().begin();
         List<Reservierung> res = new ArrayList<Reservierung>();
-        res.add(new Reservierung(new Date(), 25, 30, StatusInfo.ONTIME, zuege.get(0), strecken.get(0)), listeBenutzer.get(0),maestro);
+        res.add(new Reservierung(new Date(), 25, 30, StatusInfo.ONTIME, zuege.get(0), strecken.get(0), listeBenutzer.get(0),maestro));
         for (Reservierung r : res)
             em.persist(r);
         em.flush();
@@ -186,6 +186,15 @@ ZeitkartenTyp.valueOf(WOCHENKARTE);
     }
 
     public static void task02a() throws ParseException {
+        Query q = entitymanager.createNamedQuery("Reservierung.getReservationEmail");
+            q.setParameter("eMail", "areichmann@student.tgm.ac.at");
+        List<Reservierung> result = q.getResultList();
+
+        for (Reservierung r : result){
+            System.out.println(r.getBenutzer().getNachName());
+        }
+
+
     }
 
     public static void task02b() throws ParseException {

@@ -2,13 +2,16 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping>
+
     <class name="model.Reservierung" table="reservierung">
+
         <id name="ID"><generator class="identity"/></id>
 
         <property name="datum" type="timestamp" />
         <property name="praemienMeilenBonus" type="int" />
         <property name="preis" type="int" />
         <property name="status">
+
             <type name="org.hibernate.type.EnumType">
                 <param name="enumClass">model.StatusInfo</param>
                 <param name="useNamed">false</param>
@@ -19,4 +22,8 @@
         <many-to-one name="benutzer" class="model.Benutzer" cascade="all" />
 
     </class>
+    <query name="Reservierung.getReservationEmail">
+        select x from Reservierung x where x.benutzer.eMail = :eMail
+    </query>
+
 </hibernate-mapping>

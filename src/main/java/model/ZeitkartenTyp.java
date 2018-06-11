@@ -3,10 +3,10 @@ public enum ZeitkartenTyp {
 
 
 
-	public int WOCHENKARTE;
+	WOCHENKARTE,
 
-	public int MONATSKARTE;
+	MONATSKARTE,
 
-	public int JAHRESKARTE;
+	JAHRESKARTE
 
 }
