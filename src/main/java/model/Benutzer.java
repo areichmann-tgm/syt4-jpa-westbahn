@@ -32,10 +32,9 @@ public class Benutzer {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Ticket tickets;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	private List<Reservierung> reservierungen;
 
-	public Benutzer(String vorName, String nachName, String eMail, String passwort, String smsNummer, Long verbuchtePraemienMeilen, Ticket tickets, List<Reservierung> reservierungen) {
+
+	public Benutzer(String vorName, String nachName, String eMail, String passwort, String smsNummer, Long verbuchtePraemienMeilen, Ticket tickets) {
 		super();
 		this.setVorName(vorName);
 		this.setNachName(nachName);
@@ -44,7 +43,6 @@ public class Benutzer {
 		this.setSmsNummer(smsNummer);
 		this.verbuchtePraemienMeilen = verbuchtePraemienMeilen;
 		this.setTickets(tickets);
-		this.setReservierungen(reservierungen);
 	}
 
 	public Long getID() {
@@ -103,11 +101,14 @@ public class Benutzer {
 		this.tickets = tickets;
 	}
 
+	/*
 	public List<Reservierung> getReservierungen() {
 		return reservierungen;
 	}
 
 	public void setReservierungen(List<Reservierung> reservierungen) {
 		this.reservierungen = reservierungen;
+
 	}
+	*/
 }

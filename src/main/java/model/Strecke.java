@@ -24,6 +24,11 @@ public class Strecke {
 		this.bahnhof = bahnhof;
 		this.ende = ende;
 	}
+	public Strecke(Bahnhof start, Bahnhof ende) {
+		super();
+		this.start = start;
+		this.ende = ende;
+	}
 	public Strecke(){
 
 	}

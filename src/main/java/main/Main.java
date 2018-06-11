@@ -2,6 +2,7 @@ package main;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Set;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,12 +17,17 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.BasicConfigurator;
 
 
 import model.*;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
 
 public class Main {
 
@@ -40,12 +46,15 @@ public class Main {
 
     public static void main(String[] args) {
         //Erstellt Datenbank
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("westbahn");
+        EntityManagerFactory sessionFactory = Persistence.createEntityManagerFactory("westbahn");
+        entitymanager= sessionFactory.createEntityManager();
+         BasicConfigurator.configure();
 
-        EntityManager em = emf.createEntityManager();
+         entitymanager.getTransaction().begin();
+         Bahnhof b1 = new Bahnhof("WienHbf", 0, 0, 0, true);
+         entitymanager.getTransaction().commit();
 
 
-        BasicConfigurator.configure();
 
         try {
             //log.info("Starting \"Mapping Perstistent Classes and Associations\" (task1)");
@@ -67,13 +76,18 @@ public class Main {
             e.printStackTrace();
         } finally {
             if (entitymanager.getTransaction().isActive())
-                entitymanager.getTransaction().rollback();
-            entitymanager.close();
+                //entitymanager.getTransaction().rollback();
+            //entitymanager.close();
             sessionFactory.close();
         }
     }
 
+    private static void createData(Session session) {
+    }
+
     public static void fillDB(EntityManager em) throws ParseException {
+
+        //Make Bahnhof
         em.getTransaction().begin();
         List<Bahnhof> list = new ArrayList<Bahnhof>();
         list.add(new Bahnhof("WienHbf", 0, 0, 0, true));
@@ -86,12 +100,78 @@ public class Main {
             em.persist(b);
         em.flush();
         em.getTransaction().commit();
+
+
+        //Make Strecken
+        em.getTransaction().begin();
+        List<Strecke> strecken = new ArrayList<Strecke>();
+        strecken.add(new Strecke(list.get(0),list.get(1)));
+        strecken.add(new Strecke(list.get(1),list.get(2)));
+        strecken.add(new Strecke(list.get(2),list.get(3)));
+        strecken.add(new Strecke(list.get(3),list.get(4)));
+        strecken.add(new Strecke(list.get(4),list.get(5)));
+        for (Strecke s : strecken)
+            em.persist(s);
+        em.flush();
+        em.getTransaction().commit();
+
+        //Make Tickets and Payments
+        em.getTransaction().begin();
+        Zahlung maestro = new Maestro();
+        Zahlung kreditkarte = new Kreditkarte();
+        Zahlung praemien = new Praemienmeilen();
+
+        List<Ticket> tickets = new ArrayList<Ticket>();
+        tickets.add(new Einzelticket(strecken.get(0), maestro, ZeitkartenTyp.(WOCHENKARTE)));
+        tickets.add(new Einzelticket(strecken.get(1), praemien, ZeitkartenTyp.MONATSKARTE));
+        tickets.add(new Einzelticket(strecken.get(2), kreditkarte, ZeitkartenTyp.JAHRESKARTE));
+        tickets.add(new Einzelticket(strecken.get(3), maestro, ZeitkartenTyp.WOCHENKARTE));
+        tickets.add(new Einzelticket(strecken.get(4), maestro, ZeitkartenTyp.MONATSKARTE));
+ZeitkartenTyp.valueOf(WOCHENKARTE);
+        for (Ticket t : tickets)
+            em.persist(t);
+        em.flush();
+        em.getTransaction().commit();
+
+        //Make Benutzer
+        em.getTransaction().begin();
+        List<Benutzer> listeBenutzer = new ArrayList<Benutzer>();
+        listeBenutzer.add(new Benutzer("Adrian", "Reichmann", "areichmann@student.tgm.ac.at",";O", "06766969696969", 0L, tickets.get(0)));
+        listeBenutzer.add(new Benutzer("Marco", "Gradnitzer", "mgradnitzer@student.tgm.ac.at",";O", "122", 0L, tickets.get(1)));
+
+        for (Benutzer b : listeBenutzer)
+            em.persist(b);
+        em.flush();
+        em.getTransaction().commit();
+
+        //Make Züge
+        em.getTransaction().begin();
+        List<Zug> zuege = new ArrayList<Zug>();
+       zuege.add(new Zug(new Date(),32, 100, 68, list.get(0), list.get(1)));
+        for (Zug z : zuege)
+            em.persist(z);
+        em.flush();
+        em.getTransaction().commit();
+
+        //Make Reservierungen
+        em.getTransaction().begin();
+        List<Reservierung> res = new ArrayList<Reservierung>();
+        res.add(new Reservierung(new Date(), 25, 30, StatusInfo.ONTIME, zuege.get(0), strecken.get(0)), listeBenutzer.get(0),maestro);
+        for (Reservierung r : res)
+            em.persist(r);
+        em.flush();
+        em.getTransaction().commit();
+
+
     }
+
 
     public static void task01() throws ParseException, InterruptedException {
     }
 
     public static <T> void task02() throws ParseException {
+        //Beispiel Query
+        /*
         Query q = entitymanager.createNamedQuery("Bahnhof.getAll");
 
         List<?> l = q.getResultList();
@@ -102,7 +182,7 @@ public class Main {
                 bhf = (Bahnhof) b;
                 System.out.println("Bahnhof: " + bhf.getName());
             }
-        }
+        }*/
     }
 
     public static void task02a() throws ParseException {

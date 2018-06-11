@@ -25,6 +25,17 @@ public class Reservierung {
 
 	private Zahlung zahlung;
 
+	public Reservierung(Date datum, int praemienMeilenBonus, int preis, StatusInfo status, Zug zug, Strecke strecke, Benutzer benutzer, Zahlung zahlung) {
+		this.datum = datum;
+		this.praemienMeilenBonus = praemienMeilenBonus;
+		this.preis = preis;
+		this.status = status;
+		this.zug = zug;
+		this.strecke = strecke;
+		this.benutzer = benutzer;
+		this.zahlung = zahlung;
+	}
+
 	public Long getID() {
 		return ID;
 	}
