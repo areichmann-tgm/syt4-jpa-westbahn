@@ -32,7 +32,7 @@ public class Zug {
 	}
 
 	public Zug(){
-		
+
 	}
 
 

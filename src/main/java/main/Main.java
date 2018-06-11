@@ -20,11 +20,12 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.BasicConfigurator;
 
+
 import model.*;
 
 public class Main {
 
-    private static final Logger log = Logger.getLogger(Main.class);
+    //private static final Logger log = Logger.getLogger(Main.class);
 
     private static EntityManagerFactory sessionFactory;
     @PersistenceContext
@@ -38,22 +39,27 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        //Erstellt Datenbank
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("westbahn");
+
+        EntityManager em = emf.createEntityManager();
+
 
         BasicConfigurator.configure();
 
         try {
-            log.info("Starting \"Mapping Perstistent Classes and Associations\" (task1)");
+            //log.info("Starting \"Mapping Perstistent Classes and Associations\" (task1)");
             sessionFactory = Persistence.createEntityManagerFactory("westbahn");
             entitymanager = sessionFactory.createEntityManager();
             fillDB(entitymanager);
             task01();
-            log.info("Starting \"Working with JPA-QL and the Hibernate Criteria API\" (task2)");
-            log.setLevel(Level.OFF);
+            //log.info("Starting \"Working with JPA-QL and the Hibernate Criteria API\" (task2)");
+            //log.setLevel(Level.OFF);
             task02();
             task02a();
             task02b();
             task02c();
-            log.setLevel(Level.ALL);
+            //log.setLevel(Level.ALL);
             task03(entitymanager);
         } catch (ParseException e) {
             e.printStackTrace();
@@ -116,7 +122,7 @@ public class Main {
         Validator validator = factory.getValidator();
         Set<ConstraintViolation<Object>> violations = validator.validate(obj);
         for (ConstraintViolation<Object> violation : violations) {
-            log.error(violation.getMessage());
+            //log.error(violation.getMessage());
             System.out.println(violation.getMessage());
         }
     }
