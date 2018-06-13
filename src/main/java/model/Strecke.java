@@ -1,9 +1,6 @@
 package model;
 
 import javax.persistence.*;
-@NamedQueries({
-		@NamedQuery(name="listTicketsForRoute", query = "select * from Strecke s  WHERE s.start = ? AND s.ende = ? ")
-})
 @Entity
 public class Strecke {
 

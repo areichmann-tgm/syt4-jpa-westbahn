@@ -125,6 +125,7 @@ public class Main {
 
         List<Ticket> tickets = new ArrayList<Ticket>();
         tickets.add(new Einzelticket(strecken.get(0), maestro, TicketOption.FAHRRAD));
+        tickets.add(new Einzelticket(strecken.get(0), maestro, TicketOption.FAHRRAD));
         tickets.add(new Einzelticket(strecken.get(1), praemien, TicketOption.FAHRRAD));
         tickets.add(new Zeitkarte(strecken.get(2), kreditkarte, new Date(), ZeitkartenTyp.MONATSKARTE));
         tickets.add(new Einzelticket(strecken.get(3), maestro,TicketOption.FAHRRAD));
@@ -139,8 +140,8 @@ public class Main {
         em.getTransaction().begin();
         List<Benutzer> listeBenutzer = new ArrayList<Benutzer>();
         listeBenutzer.add(new Benutzer("Adrian", "Reichmann", "areichmann@student.tgm.ac.at",";O", "06766969696969", 0L, tickets.get(0)));
-        listeBenutzer.add(new Benutzer("Marco", "Gradnitzer", "mgradnitzer@student.tgm.ac.at",";O", "122", 0L, tickets.get(2)));
-
+        listeBenutzer.add(new Benutzer("Marco", "Gradnitzer", "mgradnitzer@student.tgm.ac.at",";O", "122", 0L, tickets.get(3)));
+        listeBenutzer.add(new Benutzer("Heute", "Schwedenplatz?", "saufen@student.tgm.ac.at","Lookbar", "144", 0L, tickets.get(1)));
         for (Benutzer b : listeBenutzer)
             em.persist(b);
         em.flush();
@@ -159,6 +160,7 @@ public class Main {
         em.getTransaction().begin();
         List<Reservierung> res = new ArrayList<Reservierung>();
         res.add(new Reservierung(new Date(), 25, 30, StatusInfo.ONTIME, zuege.get(0), strecken.get(0), listeBenutzer.get(0),maestro));
+        res.add(new Reservierung(new Date(), 25, 30, StatusInfo.ONTIME, zuege.get(0), strecken.get(0), listeBenutzer.get(2),kreditkarte));
         for (Reservierung r : res)
             em.persist(r);
         em.flush();
@@ -210,15 +212,16 @@ public class Main {
 
     public static void task02c() throws ParseException {
         Query q = entitymanager.createNamedQuery("listTicketsForRoute");
-        q.setParameter("Start",bahnhoefe.get(0));
-        q.setParameter("Ende",bahnhoefe.get(2));
-        List<Benutzer> result = q.getResultList();
+        q.setParameter("start",bahnhoefe.get(0));
+        q.setParameter("ende",bahnhoefe.get(1));
+        List<Ticket> result = q.getResultList();
 
-        for (Benutzer r : result){
+        for (Ticket t : result){
 
-            System.out.println(r.getNachName()+" "+r.getVorName() + " ist Besitzer einer Monatskarte");
+            System.out.println(t.getID());
+
         }
-    }
+
     }
 
     public static void task03(EntityManager em) {
