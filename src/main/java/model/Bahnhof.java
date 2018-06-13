@@ -52,6 +52,7 @@ public class Bahnhof {
 		ID = iD;
 	}
 
+	@Size(min=2,max=150,message="Bahnhofsname muss mindestens 2 und maximal 150 Zeichen lang sein."),
 	public String getName() {
 		return name;
 	}
