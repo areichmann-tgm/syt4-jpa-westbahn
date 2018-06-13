@@ -41,6 +41,7 @@ public class Main {
     static SimpleDateFormat timeForm = new SimpleDateFormat("dd.MM.yyyy mm:hh");
 
     private  static  List<Bahnhof> bahnhoefe;
+    private static List<Strecke> strecken;
 
     private Main() {
         super();
@@ -106,7 +107,7 @@ public class Main {
 
         //Make Strecken
         em.getTransaction().begin();
-        List<Strecke> strecken = new ArrayList<Strecke>();
+        strecken = new ArrayList<Strecke>();
         strecken.add(new Strecke(bahnhoefe.get(0),bahnhoefe.get(1)));
         strecken.add(new Strecke(bahnhoefe.get(1),bahnhoefe.get(2)));
         strecken.add(new Strecke(bahnhoefe.get(2),bahnhoefe.get(3)));
@@ -160,7 +161,7 @@ public class Main {
         em.getTransaction().begin();
         List<Reservierung> res = new ArrayList<Reservierung>();
         res.add(new Reservierung(new Date(), 25, 30, StatusInfo.ONTIME, zuege.get(0), strecken.get(0), listeBenutzer.get(0),maestro));
-        res.add(new Reservierung(new Date(), 25, 30, StatusInfo.ONTIME, zuege.get(0), strecken.get(0), listeBenutzer.get(2),kreditkarte));
+        //res.add(new Reservierung(new Date(), 25, 30, StatusInfo.ONTIME, zuege.get(0), strecken.get(0), listeBenutzer.get(2),kreditkarte));
         for (Reservierung r : res)
             em.persist(r);
         em.flush();
@@ -212,8 +213,7 @@ public class Main {
 
     public static void task02c() throws ParseException {
         Query q = entitymanager.createNamedQuery("listTicketsForRoute");
-        q.setParameter("start",bahnhoefe.get(0));
-        q.setParameter("ende",bahnhoefe.get(1));
+        q.setParameter("strecke",strecken.get(0).getID());
         List<Ticket> result = q.getResultList();
 
         for (Ticket t : result){
