@@ -3,9 +3,11 @@ package model;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.util.List;
+@NamedQueries({
+		@NamedQuery(name="getAllUsersWithMonthTicket", query = "select b from Benutzer b  JOIN  b.tickets t WHERE t.typ = 1 ")
+})
 
 @Entity
-
 public class Benutzer {
 	public Benutzer(){
 
@@ -35,6 +37,8 @@ public class Benutzer {
 
 
 
+
+
 	public Benutzer(String vorName, String nachName, String eMail, String passwort, String smsNummer, Long verbuchtePraemienMeilen, Ticket tickets) {
 		super();
 		this.setVorName(vorName);
@@ -45,6 +49,7 @@ public class Benutzer {
 		this.verbuchtePraemienMeilen = verbuchtePraemienMeilen;
 		this.setTickets(tickets);
 	}
+
 
 	public Long getID() {
 		return ID;

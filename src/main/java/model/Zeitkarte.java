@@ -1,9 +1,11 @@
 package model;
 
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.util.Date;
 
+@Entity
 public class Zeitkarte extends Ticket {
 
 

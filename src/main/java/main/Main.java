@@ -40,6 +40,8 @@ public class Main {
     static SimpleDateFormat dateForm = new SimpleDateFormat("dd.MM.yyyy");
     static SimpleDateFormat timeForm = new SimpleDateFormat("dd.MM.yyyy mm:hh");
 
+    private  static  List<Bahnhof> bahnhoefe;
+
     private Main() {
         super();
     }
@@ -76,8 +78,8 @@ public class Main {
             e.printStackTrace();
         } finally {
             if (entitymanager.getTransaction().isActive())
-                entitymanager.getTransaction().rollback();
-            entitymanager.close();
+                //entitymanager.getTransaction().rollback();
+            //entitymanager.close();
             sessionFactory.close();
         }
     }
@@ -89,7 +91,7 @@ public class Main {
 
         //Make Bahnhof
         em.getTransaction().begin();
-        List<Bahnhof> bahnhoefe = new ArrayList<Bahnhof>();
+        bahnhoefe = new ArrayList<Bahnhof>();
         bahnhoefe.add(new Bahnhof("WienHbf", 0, 0, 0, true));
         bahnhoefe.add(new Bahnhof("SalzburgHbf", 20, 60, 120, true));
         bahnhoefe.add(new Bahnhof("Amstetten", 40, 124, 169, false));
@@ -124,7 +126,7 @@ public class Main {
         List<Ticket> tickets = new ArrayList<Ticket>();
         tickets.add(new Einzelticket(strecken.get(0), maestro, TicketOption.FAHRRAD));
         tickets.add(new Einzelticket(strecken.get(1), praemien, TicketOption.FAHRRAD));
-        tickets.add(new Einzelticket(strecken.get(2), kreditkarte, TicketOption.FAHRRAD));
+        tickets.add(new Zeitkarte(strecken.get(2), kreditkarte, new Date(), ZeitkartenTyp.MONATSKARTE));
         tickets.add(new Einzelticket(strecken.get(3), maestro,TicketOption.FAHRRAD));
         tickets.add(new Einzelticket(strecken.get(4), maestro, TicketOption.FAHRRAD));
 
@@ -137,7 +139,7 @@ public class Main {
         em.getTransaction().begin();
         List<Benutzer> listeBenutzer = new ArrayList<Benutzer>();
         listeBenutzer.add(new Benutzer("Adrian", "Reichmann", "areichmann@student.tgm.ac.at",";O", "06766969696969", 0L, tickets.get(0)));
-        listeBenutzer.add(new Benutzer("Marco", "Gradnitzer", "mgradnitzer@student.tgm.ac.at",";O", "122", 0L, tickets.get(1)));
+        listeBenutzer.add(new Benutzer("Marco", "Gradnitzer", "mgradnitzer@student.tgm.ac.at",";O", "122", 0L, tickets.get(2)));
 
         for (Benutzer b : listeBenutzer)
             em.persist(b);
@@ -194,13 +196,29 @@ public class Main {
             System.out.println(r.getBenutzer().getNachName());
         }
 
-
     }
 
     public static void task02b() throws ParseException {
+        Query q = entitymanager.createNamedQuery("getAllUsersWithMonthTicket");
+        List<Benutzer> result = q.getResultList();
+
+        for (Benutzer r : result){
+
+            System.out.println(r.getNachName()+" "+r.getVorName() + " ist Besitzer einer Monatskarte");
+        }
     }
 
     public static void task02c() throws ParseException {
+        Query q = entitymanager.createNamedQuery("listTicketsForRoute");
+        q.setParameter("Start",bahnhoefe.get(0));
+        q.setParameter("Ende",bahnhoefe.get(2));
+        List<Benutzer> result = q.getResultList();
+
+        for (Benutzer r : result){
+
+            System.out.println(r.getNachName()+" "+r.getVorName() + " ist Besitzer einer Monatskarte");
+        }
+    }
     }
 
     public static void task03(EntityManager em) {
