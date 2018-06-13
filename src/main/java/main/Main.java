@@ -2,10 +2,7 @@ package main;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Set;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -16,6 +13,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+
 
 
 import org.apache.log4j.Level;
@@ -225,6 +223,16 @@ public class Main {
     }
 
     public static void task03(EntityManager em) {
+        em.getTransaction().begin();
+
+        List<Sonderangebot> s = new ArrayList<Sonderangebot>();
+        s.add(new Sonderangebot(2,(new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime()),6,8.7f));
+        for (Sonderangebot z : s){
+            validate(z);
+            em.persist(z);
+        }
+        em.flush();
+        em.getTransaction().commit();
     }
 
     public static void validate(Object obj) {

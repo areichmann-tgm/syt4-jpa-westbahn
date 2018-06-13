@@ -1,5 +1,6 @@
 package model;
 import javax.persistence.*;
+import javax.validation.constraints.FutureOrPresent;
 import java.util.Date;
 
 @Entity
@@ -11,6 +12,8 @@ public class Sonderangebot {
 
 	private int kontingent = 999;
 
+	@Temporal(TemporalType.DATE)
+	@FutureOrPresent(message = "Die Zeit darf nicht in der Vergangenheit liegen.")
 	private Date startZeit;
 
 	private int dauer = 12;
