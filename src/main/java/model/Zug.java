@@ -1,5 +1,6 @@
 package model;
 import javax.persistence.*;
+import javax.validation.constraints.AssertFalse;
 import java.util.Date;
 @Entity
 public class Zug {
@@ -22,6 +23,9 @@ public class Zug {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Bahnhof ende;
 
+	@AssertFalse(message="Start und Ende dürfen nicht gleich sein!")
+	private boolean endeIsStart;
+
 	public Zug(Date startZeit, int sitzPlaetze, int fahrradStellplaetze, int rollStuhlPlaetze, Bahnhof start, Bahnhof ende) {
 		this.startZeit = startZeit;
 		this.sitzPlaetze = sitzPlaetze;
@@ -29,6 +33,7 @@ public class Zug {
 		this.rollStuhlPlaetze = rollStuhlPlaetze;
 		this.start = start;
 		this.ende = ende;
+		this.endeIsStart = this.ende.getName().equals(this.start.getName());
 	}
 
 	public Zug(){
