@@ -229,11 +229,18 @@ public class Main {
         s.add(new Sonderangebot(2,(new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime()),6,8.7f));
         for (Sonderangebot z : s){
             validate(z);
-            em.persist(z);
         }
         em.flush();
         em.getTransaction().commit();
     }
+    List<Sonderangebot> s = new ArrayList<Sonderangebot>();
+        s.add(new Sonderangebot(2,(new GregorianCalendar(2014, Calendar.FEBRUARY, 11).getTime()),6,8.7f));
+        for (Sonderangebot z : s){
+        validate(z);
+        }
+        em.flush();
+        em.getTransaction().commit();
+        }
 
     public static void validate(Object obj) {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();

@@ -1,6 +1,8 @@
 package model;
 
 import javax.persistence.*;
+import javax.validation.constraints.AssertFalse;
+
 @Entity
 public class Strecke {
 
@@ -17,11 +19,15 @@ public class Strecke {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Bahnhof ende;
 
+	@AssertFalse(message="Start und Ende dürfen nicht gleich sein!")
+	private boolean endeIsStart;
+
 	public Strecke(Bahnhof start, Bahnhof bahnhof, Bahnhof ende) {
 		super();
 		this.start = start;
 		this.bahnhof = bahnhof;
 		this.ende = ende;
+		this.endeIsStart = this.ende.getName().equals(this.start.getName());
 	}
 	public Strecke(Bahnhof start, Bahnhof ende) {
 		super();
