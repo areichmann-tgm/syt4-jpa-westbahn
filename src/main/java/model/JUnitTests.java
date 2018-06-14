@@ -30,7 +30,7 @@ public class JUnitTests {
        private static EntityManager entitymanager;
 
        @BeforeClass
-       static void setUp() {
+       public static void setUp() {
            EntityManagerFactory sessionFactory = Persistence.createEntityManagerFactory("westbahn");
            entitymanager= sessionFactory.createEntityManager();
            BasicConfigurator.configure();
@@ -112,7 +112,7 @@ public class JUnitTests {
        }
 
     @Test
-    void checkPersistency() {
+    public void checkPersistency() {
         Bahnhof testing = new Bahnhof("Langenzersdorf", 100, 100, 100, true);
         entitymanager.persist(testing);
         Query q = entitymanager.createQuery("select b from Bahnhof b where b.name = 'Langenzersdorf'");
@@ -122,13 +122,30 @@ public class JUnitTests {
     }
 
     @Test
-    void checkPersistency_2() {
+    public void checkPersistency_2() {
         Benutzer test = new Benutzer("Marco liebt", "Gradi?", "saufen@student.tgm.ac.at","lit", "144", 0L, tickets.get(1));
         entitymanager.persist(test);
         Query q = entitymanager.createQuery("select b from Benutzer b where b.nachName = 'Gradi?'");
         List<Benutzer> l = q.getResultList();
         for (Benutzer b: l)
             assertTrue(b.equals(test));
+    }
+
+    @Test
+    public void query2b() {
+        Query q = entitymanager.createQuery("select b from Benutzer b  JOIN  b.tickets t WHERE t.typ = 1 ");
+        List<Benutzer> l = q.getResultList();
+        for (Benutzer b: l)
+            assertTrue(b.getVorName().equals("Marco"));
+    }
+
+    @Test
+    public void query2a() {
+        Query q = entitymanager.createQuery(" select x from Reservierung x where x.benutzer.eMail = :eMail ");
+        q.setParameter("eMail", "areichmann@student.tgm.ac.at");
+        List<Reservierung> l = q.getResultList();
+        for (Reservierung b: l)
+            assertTrue(b.getBenutzer().getNachName().equals("Reichmann"));
     }
 
 
