@@ -1,6 +1,7 @@
 package model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
@@ -18,6 +19,7 @@ public class Bahnhof {
 	private Long ID;
 
 	@Size(min=2,max=150,message="Bahnhofname muss mindestens 2 und maximal 150 Zeichen lang sein!")
+	@Pattern(regexp="^[a-zA-Z0-9 -]", message = "Keine Sonderzeichen ausser -")
 	@Column(name="name",unique=true)
 	private String name;
 
@@ -52,7 +54,7 @@ public class Bahnhof {
 		ID = iD;
 	}
 
-	@Size(min=2,max=150,message="Bahnhofsname muss mindestens 2 und maximal 150 Zeichen lang sein."),
+	@Size(min=2,max=150,message="Bahnhofsname muss mindestens 2 und maximal 150 Zeichen lang sein.")
 	public String getName() {
 		return name;
 	}
