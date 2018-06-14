@@ -4,6 +4,7 @@ package model;
  import javax.persistence.*;
 
  import static org.junit.Assert.assertEquals;
+ import static org.junit.Assert.assertTrue;
 
  import org.apache.log4j.BasicConfigurator;
  import org.junit.BeforeClass;
@@ -20,6 +21,9 @@ package model;
 public class JUnitTests {
         private  static List<Bahnhof> bahnhoefe;
         private static List<Strecke> strecken;
+        private  static List<Zug> zuege;
+        private static List<Reservierung> res;
+        private static List<Ticket> tickets;
 
        private static EntityManagerFactory sessionFactory;
        @PersistenceContext
@@ -62,7 +66,7 @@ public class JUnitTests {
            Zahlung kreditkarte = new Kreditkarte();
            Zahlung praemien = new Praemienmeilen();
 
-           List<Ticket> tickets = new ArrayList<Ticket>();
+           tickets = new ArrayList<Ticket>();
            tickets.add(new Einzelticket(strecken.get(0), maestro, TicketOption.FAHRRAD));
            tickets.add(new Einzelticket(strecken.get(0), maestro, TicketOption.FAHRRAD));
            tickets.add(new Einzelticket(strecken.get(1), praemien, TicketOption.FAHRRAD));
@@ -88,7 +92,7 @@ public class JUnitTests {
 
            //Make Züge
            entitymanager.getTransaction().begin();
-           List<Zug> zuege = new ArrayList<Zug>();
+           zuege = new ArrayList<Zug>();
            zuege.add(new Zug(new Date(),32, 100, 68, bahnhoefe.get(0), bahnhoefe.get(1)));
            for (Zug z : zuege)
                entitymanager.persist(z);
@@ -97,7 +101,7 @@ public class JUnitTests {
 
            //Make Reservierungen
            entitymanager.getTransaction().begin();
-           List<Reservierung> res = new ArrayList<Reservierung>();
+           res = new ArrayList<Reservierung>();
            res.add(new Reservierung(new Date(), 25, 30, StatusInfo.ONTIME, zuege.get(0), strecken.get(0), listeBenutzer.get(0),maestro));
            //res.add(new Reservierung(new Date(), 25, 30, StatusInfo.ONTIME, zuege.get(0), strecken.get(0), listeBenutzer.get(2),kreditkarte));
            for (Reservierung r : res)
@@ -105,9 +109,27 @@ public class JUnitTests {
            entitymanager.flush();
            entitymanager.getTransaction().commit();
 
+       }
 
-       }
-       }
+    @Test
+    void checkPersistency() {
+        Bahnhof testing = new Bahnhof("Langenzersdorf", 100, 100, 100, true);
+        entitymanager.persist(testing);
+        Query q = entitymanager.createQuery("select b from Bahnhof b where b.name = 'Langenzersdorf'");
+        List<Bahnhof> l = q.getResultList();
+        for (Bahnhof b : l)
+            assertTrue(testing.equals(b));
+    }
+
+    @Test
+    void checkPersistency_2() {
+        Benutzer test = new Benutzer("Marco liebt", "Gradi?", "saufen@student.tgm.ac.at","lit", "144", 0L, tickets.get(1));
+        entitymanager.persist(test);
+        Query q = entitymanager.createQuery("select b from Benutzer b where b.nachName = 'Gradi?'");
+        List<Benutzer> l = q.getResultList();
+        for (Benutzer b: l)
+            assertTrue(b.equals(test));
+    }
 
 
 }
