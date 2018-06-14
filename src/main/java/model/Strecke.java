@@ -19,6 +19,7 @@ public class Strecke {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Bahnhof ende;
 
+	@Transient
 	@AssertFalse(message="Start und Ende dürfen nicht gleich sein!")
 	private boolean endeIsStart;
 
