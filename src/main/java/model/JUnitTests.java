@@ -2,8 +2,13 @@ package model;
 
 
  import javax.persistence.*;
+ import javax.validation.ConstraintViolation;
+ import javax.validation.Validation;
+ import javax.validation.Validator;
+ import javax.validation.ValidatorFactory;
 
  import static org.junit.Assert.assertEquals;
+ import static org.junit.Assert.assertFalse;
  import static org.junit.Assert.assertTrue;
 
  import org.apache.log4j.BasicConfigurator;
@@ -15,6 +20,7 @@ package model;
  import java.util.ArrayList;
  import java.util.Date;
  import java.util.List;
+ import java.util.Set;
 
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -147,6 +153,58 @@ public class JUnitTests {
         for (Reservierung b: l)
             assertTrue(b.getBenutzer().getNachName().equals("Reichmann"));
     }
+
+    @Test
+    public void query2a2() {
+        Query q = entitymanager.createQuery(" select x from Reservierung x where x.benutzer.eMail = :eMail ");
+        q.setParameter("eMail", "mgradnitzer@student.tgm.ac.at");
+        List<Reservierung> l = q.getResultList();
+        for (Reservierung b: l)
+            assertFalse(b.getBenutzer().getNachName().equals("Reichmann"));
+    }
+
+    @Test
+    public void query2b2() {
+        Query q = entitymanager.createQuery("select b from Benutzer b  JOIN  b.tickets t WHERE t.typ = 1 ");
+        List<Benutzer> l = q.getResultList();
+        for (Benutzer b: l)
+            assertFalse(b.getVorName().equals("Hans"));
+    }
+    @Test
+    public void testValidationError() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Bahnhof z = new Bahnhof("e", 0, 0, 0, true);
+        Set<ConstraintViolation<Bahnhof>> violations = validator.validate(z);
+        for (ConstraintViolation<Bahnhof> violation : violations) {
+            assertTrue(violation.getMessage().equals("Bahnhofname muss mindestens 2 und maximal 150 Zeichen lang sein!"));
+        }
+
+    }
+    @Test
+    public void testValidationError2() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Benutzer z = new Benutzer("Marco liebt", "Gradi?", "FALSE","lit", "144", 0L, tickets.get(1));
+        Set<ConstraintViolation<Benutzer>> violations = validator.validate(z);
+        for (ConstraintViolation<Benutzer> violation : violations) {
+            assertTrue(violation.getMessage().equals("E-Mail Adresse muss korrekt sein"));
+        }
+
+    }
+    @Test
+    public void testValidationError3() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+        Strecke s = new Strecke(bahnhoefe.get(0),bahnhoefe.get(0));
+        Set<ConstraintViolation<Strecke>> violations = validator.validate(s);
+        for (ConstraintViolation<Strecke> violation : violations) {
+            assertTrue(violation.getMessage().equals("Start und Ende dürfen nicht gleich sein!"));
+        }
+
+    }
+
+
 
 
 }
